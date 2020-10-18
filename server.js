@@ -29,3 +29,4 @@ app.use("/api", apiRoutes);
 
 // Start the server on the port
 app.listen(PORT, () => console.info(`App running on port ${PORT}!`));
+
