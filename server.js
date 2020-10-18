@@ -1,8 +1,10 @@
 // Server.js - This file is the initial starting point for the Node/Express server.
 
 const express = require("express");
-// const mongoose = require("mongoose");
-const routes = require("./routes/index");
+// require("dotenv").config();
+const mongoose = require("mongoose");
+const apiRoutes = require("./routes/api-routes.js");
+// const routes = require("./public/index");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,14 +15,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/budget", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
   useFindAndModify: false
 });
 
 // routes
-app.use(require("/api", routes));
-// app.use(require("./routes/api.js"));
+require("./routes/html-routes.js")(app);
+app.use("/api", apiRoutes);
+// app.use(require("./routes/api-routes.js"));
 
 // Start the server on the port
 app.listen(PORT, () => console.info(`App running on port ${PORT}!`));
